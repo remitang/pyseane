@@ -3,6 +3,9 @@ Développé par Remi TANG, Jeremi DESSERT, Nicolas MOLINA.
 # Pyseane - Campagne de phishing
 Dans le but d'une campagne de phishing, Pyseane permet de de gérer une campagne de phishing en passant de la création de la page web de phishing, de l'envoie de mail au utilisateurs jusqu'au suivi des cliques ou les rentrées d'informations d'authentifications sur le site falsifié.
 
+https://github.com/user-attachments/assets/1dc69271-f4f3-4f93-8b3c-20d1d5d92e38
+
+
 #### Buts et objectifs
 - Créer une campagne de phishing rapidement
 - Assurer le suivi des hammeçonnages en temps réels
@@ -11,6 +14,13 @@ Dans le but d'une campagne de phishing, Pyseane permet de de gérer une campagne
 - Création automatique du site internet à dupliquer
 - Interface utilisateur permettant d'envoyer les mails directement avec le lien de phishing
 - Suivre la campagne en temps réel
+
+
+
+
+## Fonctionnement
+![Capture d’écran de 2024-08-15 12-36-42](https://github.com/user-attachments/assets/39c52df0-d196-49bb-b2cf-744a52606fe8)
+
 
 ## Installation de l'environnement
 
