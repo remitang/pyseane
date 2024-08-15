@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tableaux de bord</title>
+    <link rel="icon" href="static/img/logo.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff0000, #000000);
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+        
+        .navbar {
+            background-color: #333;
+            padding: 1.5% 0.5%; /* Converti de pixels en pourcentage */
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10002;
+            margin-bottom: 10%;
+            height: 15%;
+        }
+        .navbar-brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+    
+        .navbar-brand h1 {
+            margin: 0;
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            margin-top: 6%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 6%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10002;
+        }
+        
+        .sidebar a {
+            padding: 1% 1% 1% 4%; /* Converti de pixels en pourcentage */
+            text-decoration: none;
+            font-size: 1.2vw; /* Ajusté pour être relatif à la largeur de la vue */
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+        
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 2%; /* Converti de pixels en pourcentage */
+            font-size: 3vw; /* Ajusté pour être relatif à la largeur de la vue */
+            margin-left: 1%;
+        }
+
+        .dashboard-page .sidebar a {
+            font-size: 150%; /* Taille spécifique pour la page du tableau de bord */
+        }
+        
+        .content {
+            transition: margin-left 0.5s;
+            padding: 2%;
+            margin-left: 0;
+            margin-top: 10%;
+            position: relative;
+            width: 100%;
+        }
+        
+        .open-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #f1f1f1;
+            padding: 0.5%;
+            position: fixed;
+            left: 1%;
+            top: 1%;
+            z-index: 10003;
+        }
+        
+        .sidebar-open {
+            width: 20%; /* Converti de pixels en pourcentage */
+        }
+        
+        .sidebar-open + .content {
+            margin-left: 20%; /* Converti de pixels en pourcentage */
+        }
+        
+        .dashboard-container {
+            width: 80%;
+            margin: 3% auto; /* Converti de pixels en pourcentage */
+            margin-bottom: 15%;
+            padding: 2%;
+            border-radius: 2vw; /* Ajusté pour être relatif à la largeur de la vue */
+            box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2); /* Ajusté pour être relatif à la largeur de la vue */
+            background-color: #272727;
+            text-align: center;
+        }   
+
+    .campaign-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .campaign-item {
+      margin-bottom: 10px;
+    }
+    .centered-link {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .nav-item {
+        margin-right : 5%;
+    }
+    .line-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px; /* Ajustez la marge supérieure selon vos besoins */
+    }
+    
+    .data-table td i {
+        font-size: 4vw;
+        margin-bottom: 2.5%;
+        
+    }
+    
+    .data-number {
+        font-size: 125%;
+        font-weight: bold;
+    }
+
+    /* Nouveau style pour le tableau */
+    .data-table {
+        width: 80%;
+        margin: auto;
+        margin-bottom: 5%;
+        border-collapse: collapse;
+    }
+
+    .data-table th, .data-table td {
+        padding: 0.8%;
+        text-align: center;
+        border: 1px solid #ddd;
+        background-color: #5F5959;
+    }
+
+    .data-table th {
+        background-color: #333;
+        color: white;
+    }
+
+    /* Nouveau style pour les camemberts */
+    .chart-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start; /* Alignez les camemberts en haut */
+        flex-wrap: wrap;
+        margin-top: 5%;
+        overflow-y: auto; /* Ajout de cette ligne pour activer le défilement vertical si nécessaire */
+    }
+    
+    .chart {
+        width: 30%; /* Ajustez la largeur selon vos besoins */
+        margin-bottom: 2.5%;
+        flex-shrink: 0; /* Empêche le rétrécissement des camemberts */
+    }
+    
+    .chart h3 {
+        text-align: center;
+        margin-bottom: 5%;
+        font-size: 125%;
+    }
+
+    .h3-pourcentage {
+    margin-top: 5%;  /* Ajustez la valeur selon vos besoins */
+    }
+
+    @media screen and (max-width: 768px) {
+        .sidebar-open,
+        .sidebar-open + .content {
+            width: 100%; /* Ajustement pour les écrans plus petits */
+            margin-left: 0; /* Ajustement pour les écrans plus petits */
+        }
+    
+        .dashboard-container {
+            width: 90%; /* Ajustement pour les écrans plus petits */
+        }
+    
+        /* Ajoutez d'autres ajustements si nécessaire */
+    }
+    .open-btn-container {
+        margin-right: 1%;
+    }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-page">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="max-width: 100%; margin: 0 auto;">
+    <div class="d-flex justify-content-between align-items-center w-100">
+        <!-- Div pour le bouton open-btn -->
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" href="#" style="margin-left: 1%"></a>
+            <div class="open-btn-container">
+                <button class="open-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <!-- Div pour le titre PYSEANE -->
+        <div class="navbar-brand " style="text-align: center; margin-left:10vw">
+            <h1 class="my-0">Pyseane</h1>
+        </div>
+        <!-- Div pour le formulaire -->
+        <div class="collapse navbar-collapse" style="padding-top: 1vw;">
+            <ul class="navbar-nav ml-auto" style="margin-right: 1vw;">
+                <li class="nav-item">
+                    {% if selected_campagne %}
+                    <form method="get" action="">
+                        {{ form.as_p }}
+                    </form>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="sidebar">
+    <a href="#" class="close-btn" onclick="toggleSidebar()">&#9665;</a>
+    <ul class="list-unstyled">
+        <li><a href="/panel">Dashboard</a></li>
+        <li><a href="/panel/email">Email</a></li>
+        <li><a href="/panel/campagnes">Campagnes</a></li>
+        <!-- ... Autres éléments de la barre latérale ... -->
+        <li><a href="/logout">déconnexion</a></li>
+    </ul>
+</div>
+
+<div class="content">
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>User total</th>
+            <th>User open mail</th>
+            <th>User open link</th>
+            <th>User post credentials</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <i class="fas fa-user"></i>
+                <span class="data-number">{{nb_target}}</span>
+            </td>
+            <td>
+                <i class="fas fa-envelope"></i>
+                <span class="data-number">{{nb_target_has_read}}</span>
+            </td>
+            <td>
+                <i class="fas fa-link"></i>
+                <span class="data-number">{{nb_target_has_open}}</span>
+            </td>
+            <td>
+                <i class="fas fa-user-lock"></i>
+                <span class="data-number">{{nb_target_has_logged}}</span>
+            </td>
+        </tr>
+        <!-- Ajoutez d'autres lignes si nécessaire -->
+        </tbody>
+    </table>
+    <div class="dashboard-container">
+        <h2>Panel utilisateur</h2>
+        {% if selected_campagne %}
+        <p>Votre suivie de campagne {{ selected_campagne.nom }}</p>
+        {% endif %}
+        <div style="margin-bottom: 50px;">
+            <div class="chart-container">
+                <!-- Camembert 1 -->
+                <div class="chart">
+                    <h3>Utilisateurs ayant ouvert le mail</h3>
+                    <div class="chart-content">
+                        <canvas id="campagnesChart1"></canvas>
+                    </div>
+                    <h3 class="h3-pourcentage">Pourcentage : {{pourcentage_1}}%</h3>
+                </div>
+                <!-- Camembert 2 -->
+                <div class="chart">
+                    <h3>utilisateurs ayant cliqués sur lien</h3>
+                    <div class="chart-content">
+                        <canvas id="campagnesChart2"></canvas>
+                    </div>
+                    <h3 class="h3-pourcentage">Pourcentage : {{pourcentage_2}}%</h3>
+                </div>
+                <!-- Camembert 3 -->
+                <div class="chart">
+                    <h3>Utilisateurs s'étant connectés</h3>
+                    <div class="chart-content">
+                        <canvas id="campagnesChart3"></canvas>
+                    </div>
+                    <h3 class="h3-pourcentage">Pourcentage : {{pourcentage_3}}%</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var data1 = [
+                { label: 'Email reçu non ouvert', count: {{nb_target}} - {{nb_target_has_read}} },
+                { label: 'Email reçu ouvert', count: {{nb_target_has_read}} },
+            ];
+    
+            var ctx1 = document.getElementById('campagnesChart1').getContext('2d');
+            var chart1 = new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: data1.map(item => item.label),
+                    datasets: [{
+                        data: data1.map(item => item.count),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'start', // 'start' aligne les légendes au début du camembert
+                            anchor: 'end', // 'end' les place en dessous du camembert
+                        }
+                    }
+                }    
+            });
+    
+            // Données pour le graphique 2 (à remplacer par vos propres données)
+            var data2 = [
+                { label: 'Non ouverture du lien', count: {{nb_target_has_read}}-{{nb_target_has_read}} },
+                { label: 'Ouverture du lien', count: {{nb_target_has_open}} },
+            ];
+    
+            var ctx2 = document.getElementById('campagnesChart2').getContext('2d');
+            var chart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: data2.map(item => item.label),
+                    datasets: [{
+                        data: data2.map(item => item.count),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'start', // 'start' aligne les légendes au début du camembert
+                            anchor: 'end', // 'end' les place en dessous du camembert
+                        }
+                    }
+                }    
+            });
+    
+            // Données pour le graphique 3 (à remplacer par vos propres données)
+            var data3 = [
+                { label: 'Pas de credentials envoyés', count: {{nb_target_has_open}}-{{nb_target_has_logged}} },
+                { label: 'Credentials envoyés', count: {{nb_target_has_logged}} },
+            ];
+    
+            var ctx3 = document.getElementById('campagnesChart3').getContext('2d');
+            var chart3 = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: data3.map(item => item.label),
+                    datasets: [{
+                        data: data3.map(item => item.count),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'start', // 'start' aligne les légendes au début du camembert
+                            anchor: 'end', // 'end' les place en dessous du camembert
+                        }
+                    }
+                }    
+            });
+        })
+
+</script>
+<script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('sidebar-open');
+        }
+
+</script>
+<script>
+        function detectZoom() {
+            var ratio = 0,
+                screen = window.screen,
+                ua = navigator.userAgent.toLowerCase();
+
+            if (window.devicePixelRatio !== undefined) {
+                ratio = window.devicePixelRatio;
+            } else if (~ua.indexOf('msie')) {
+                if (screen.deviceXDPI && screen.logicalXDPI) {
+                    ratio = screen.deviceXDPI / screen.logicalXDPI;
+                }
+            } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+                ratio = window.outerWidth / window.innerWidth;
+            }
+
+            if (ratio) {
+                var button = document.querySelector('.open-btn');
+                if (button) {
+                    button.style.fontSize = 2 * ratio + 'vw';
+                }
+            }
+        }
+
+        window.onload = detectZoom;
+        window.onresize = detectZoom;
+
+</script>
+</body>
+</html>

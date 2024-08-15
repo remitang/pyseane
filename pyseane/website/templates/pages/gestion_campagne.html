@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gestion Campagnes</title>
+    <link rel="icon" href="static/img/logo.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff0000, #000000);
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 1.5% 0.5%;
+            /* Converti de pixels en pourcentage */
+            color: white;
+            position: fixed;
+            width: 100%;
+            height: 15%;
+            top: 0;
+            z-index: 10002;
+            margin-bottom: 10%;
+        }
+
+        .navbar-brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar-brand h1 {
+            margin: 0;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            margin-top: 6%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 6%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10002;
+        }
+
+        .sidebar a {
+            padding: 1% 1% 1% 4%;
+            /* Converti de pixels en pourcentage */
+            text-decoration: none;
+            font-size: 1.2vw;
+            /* Ajusté pour être relatif à la largeur de la vue */
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 2%;
+            /* Converti de pixels en pourcentage */
+            font-size: 3vw;
+            /* Ajusté pour être relatif à la largeur de la vue */
+            margin-left: 1%;
+        }
+
+        .dashboard-page .sidebar a {
+            font-size: 150%;
+            /* Taille spécifique pour la page du tableau de bord */
+        }
+
+        .content {
+            transition: margin-left 0.5s;
+            padding: 2%;
+            margin-left: 0;
+            margin-top: 10%;
+            position: relative;
+            width: 100%;
+        }
+
+        .open-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #f1f1f1;
+            padding: 0.5%;
+            position: fixed;
+            left: 1%;
+            top: 1%;
+            z-index: 10003;
+        }
+
+        .sidebar-open {
+            width: 20%;
+            /* Converti de pixels en pourcentage */
+        }
+
+        .sidebar-open+.content {
+            margin-left: 20%;
+            /* Converti de pixels en pourcentage */
+        }
+
+        .dashboard-container {
+            width: 80%;
+            margin: 3% auto;
+            /* Converti de pixels en pourcentage */
+            margin-bottom: 15%;
+            padding: 2%;
+            border-radius: 2vw;
+            /* Ajusté pour être relatif à la largeur de la vue */
+            box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+            /* Ajusté pour être relatif à la largeur de la vue */
+            background-color: #272727;
+            text-align: center;
+        }
+
+        .campaign-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .campaign-item {
+            margin-bottom: 10px;
+        }
+
+        .centered-link {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-item {
+            margin-right: 5%;
+        }
+
+        .line-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            /* Ajustez la marge supérieure selon vos besoins */
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .sidebar-open,
+            .sidebar-open+.content {
+                width: 100%;
+                /* Ajustement pour les écrans plus petits */
+                margin-left: 0;
+                /* Ajustement pour les écrans plus petits */
+            }
+
+            .dashboard-container {
+                width: 90%;
+                /* Ajustement pour les écrans plus petits */
+            }
+
+            /* Ajoutez d'autres ajustements si nécessaire */
+        }
+
+        .open-btn-container {
+            margin-right: 1%;
+        }
+
+        h1 {
+            font-size: 2.5vw;
+            /* Utilisation de vw pour la taille de la police */
+            margin-bottom: 2vw;
+        }
+
+        ul {
+            list-style-type: none;
+            /* Supprime les puces de la liste */
+            margin-bottom: 2vw;
+        }
+
+        li {
+            font-size: 1.8vw;
+            /* Utilisation de vw pour la taille de la police dans les listes */
+            margin-bottom: 2vw;
+            /* Utilisation de vw pour le margin-bottom */
+        }
+
+        iframe {
+            margin-top: 1vw;
+            width: 100%;
+            /* Utilisation de vw pour la largeur de l'iframe */
+            height: 50vw;
+            /* Utilisation de vw pour la hauteur de l'iframe */
+        }
+
+        .btn-create-campaign {
+            width: 30%;
+            padding: 1%;
+            /* Hauteur du bouton de création de campagne */
+            background-color: #5F5959;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-create-campaign:hover {
+            background-color: #333;
+            /* Une teinte plus sombre de rouge au survol */
+            color: #5F5959;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="max-width: 100%; margin: 0 auto;">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <!-- Div pour le bouton open-btn -->
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="#" style="margin-left: 1%"></a>
+                <div class="open-btn-container">
+                    <button class="open-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- Div pour le titre PYSEANE -->
+            <div class="navbar-brand " style="text-align: center; margin-left:10vw">
+                <h1 class="my-0">Pyseane</h1>
+            </div>
+            <!-- Div pour le formulaire -->
+            <div class="collapse navbar-collapse" style="padding-top: 1vw;">
+                <ul class="navbar-nav ml-auto" style="margin-right: 1vw;">
+                    <li class="nav-item">
+                        {% if selected_campagne %}
+                        <form method="get" action="">
+                            {{ form.as_p }}
+                        </form>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+        <a href="#" class="close-btn" onclick="toggleSidebar()">&#9665;</a>
+        <ul class="list-unstyled">
+            <li><a href="/panel">Dashboard</a></li>
+            <li><a href="/panel/email">Email</a></li>
+            <li><a href="/panel/campagnes">Campagnes</a></li>
+            <!-- ... Autres éléments de la barre latérale ... -->
+            <li><a href="/logout">déconnexion</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="dashboard-container">
+            <!-- Your main content goes here -->
+            <h1>Votre aperçu de la page de fishing :</h1>
+            <ul>
+                <li>Url de la page cloné : {{ selected_campagne.url }} -> <a
+                        href="/campagnes/{{ selected_campagne.id }}">Lien
+                        vers la page générer</a></li>
+                <button type="submit" class="btn btn-create-campaign" onclick="redirectToPage()">Nouvelle
+                    Campagne</button>
+                <iframe src="/campagnes/{{selected_campagne.id}}" frameborder="0"></iframe>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('sidebar-open');
+        }
+    </script>
+    <script>
+        function detectZoom() {
+            var ratio = 0,
+                screen = window.screen,
+                ua = navigator.userAgent.toLowerCase();
+            if (window.devicePixelRatio !== undefined) {
+                ratio = window.devicePixelRatio;
+            } else if (~ua.indexOf('msie')) {
+                if (screen.deviceXDPI && screen.logicalXDPI) {
+                    ratio = screen.deviceXDPI / screen.logicalXDPI;
+                }
+            } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+                ratio = window.outerWidth / window.innerWidth;
+            }
+            if (ratio) {
+                var button = document.querySelector('.open-btn');
+                if (button) {
+                    button.style.fontSize = 2 * ratio + 'vw';
+                }
+            }
+        }
+        window.onload = detectZoom;
+        window.onresize = detectZoom;
+    </script>
+    <script>
+        function redirectToPage() {
+            // Specify the URL to which you want to redirect
+            var redirectUrl = '../campagne';
+            // Use window.location.href to redirect
+            window.location.href = redirectUrl;
+        }
+    </script>
+
+</body>
+
+</html>

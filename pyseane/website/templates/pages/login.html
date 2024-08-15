@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page de Connexion</title>
+  <link rel="icon" href="static/img/logo.png" type="image/png">
+  <!-- Ajouter les liens vers les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #ff0000, #000000);
+      /* Dégradé de rouge et de noir */
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      color: #000;
+      /* Couleur du texte en noir */
+    }
+
+    .login-container {
+      max-width: 500px;
+      /* Augmentation de la largeur du formulaire */
+      width: 100%;
+      padding: 2%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .login-container h2 {
+      margin-bottom: 5%;
+      color: #ff0000;
+    }
+
+    .form-group {
+      margin-bottom: 5%;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 2%;
+      /* Augmentation de la hauteur des champs de formulaire */
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 2%;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 4%;
+      /* Augmentation de la hauteur du bouton */
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-login:hover {
+      background-color: #cc0000;
+      /* Une teinte plus sombre de rouge au survol */
+    }
+
+    .register-link {
+      margin-top: 3%;
+      font-size: 100%;
+    }
+
+    .register-link a {
+      color: #ff0000;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register-link a:hover {
+      color: #cc0000;
+      /* Une teinte plus sombre de rouge au survol */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <h2>Connexion</h2>
+    <form method="post" action="">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="login">Nom d'utilisateur</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="btn btn-login">Se Connecter</button>
+    </form>
+    <div class="register-link">
+      <p>Vous n'avez pas de compte? <a href="register">Inscrivez-vous ici</a></p>
+    </div>
+  </div>
+
+  <!-- Ajouter le lien vers le fichier Bootstrap JS et jQuery (optionnel) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

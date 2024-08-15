@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Email fishing</title>
+    <link rel="icon" href="static/img/logo.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff0000, #000000);
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 1.5% 0.5%;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10002;
+            margin-bottom: 10%;
+            height: 15%;
+        }
+
+        .navbar-brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar-brand h1 {
+            margin: 0;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            margin-top: 6%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 6%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10002;
+        }
+
+        .sidebar a {
+            padding: 1% 1% 1% 4%;
+            text-decoration: none;
+            font-size: 1.2vw;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 2%;
+            font-size: 3vw;
+            margin-left: 1%;
+        }
+
+        .dashboard-page .sidebar a {
+            font-size: 150%;
+        }
+
+        .content {
+            transition: margin-left 0.5s;
+            padding: 2%;
+            margin-left: 0;
+            margin-top: 10%;
+            position: relative;
+            width: 100%;
+        }
+
+        .open-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #f1f1f1;
+            padding: 0.5%;
+            position: fixed;
+            left: 1%;
+            top: 1%;
+            z-index: 10003;
+        }
+
+        .sidebar-open {
+            width: 20%;
+        }
+
+        .sidebar-open+.content {
+            margin-left: 20%;
+        }
+
+        .dashboard-container {
+            width: 80%;
+            margin: 3% auto;
+            margin-bottom: 15%;
+            padding: 2%;
+            border-radius: 2vw;
+            box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+            background-color: #272727;
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            text-align: left;
+        }
+
+        .col-md-4,
+        .col-md-8 {
+            padding: 1%;
+            box-sizing: border-box;
+            flex: 0 0 48%;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .btn-sub {
+            margin-top: 5%;
+        }
+
+        .content-form {
+            resize: vertical;
+            height: 20vw;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 5%;
+            margin-top: 1%;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .subject-form {
+            resize: vertical;
+            height: 4vw;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 5%;
+            margin-top: 2%;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .name-form {
+            resize: vertical;
+            height: 4vw;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 5%;
+            margin-top: 2%;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .receiver-form {
+            resize: vertical;
+            height: 20vw;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 5%;
+            margin-top: 1%;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .template-dropdown {
+            height: 3vw;
+            /* Ajustez la hauteur selon vos besoins */
+            width: 40%;
+            /* Occupera toute la largeur disponible */
+            box-sizing: border-box;
+            /* Ajuste la boîte pour inclure le padding dans la largeur/hauteur */
+            overflow-y: auto;
+            /* Ajoute une barre de défilement si nécessaire */
+            margin-bottom: 5%;
+            margin-top: 2%;
+            border-radius: 10px;
+        }
+
+        .form-control {
+            margin-left: 0%;
+        }
+
+        h3 {
+            padding-bottom: 2%;
+            text-align: center;
+        }
+
+        h4 {
+            text-align: left;
+            margin-left: 3%;
+            margin-top: 1%;
+            font-size: 125%;
+        }
+
+        .form-mailtype {
+            width: 100%;
+        }
+
+        .row-divider {
+            border-right: 2px solid #ffffff;
+            padding-right: 2%;
+            box-sizing: border-box;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .sidebar-open,
+            .sidebar-open+.content {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .dashboard-container {
+                width: 90%;
+            }
+        }
+
+        .btn-submit {
+            width: 30%;
+            padding: 1%;
+            /* Hauteur du bouton de création de campagne */
+            background-color: #5F5959;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 5%;
+            margin-top: 0%;
+        }
+
+        .btn-submit:hover {
+            background-color: #333;
+            /* Une teinte plus sombre de rouge au survol */
+            color: #5F5959;
+        }
+
+        .centered-link {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-item {
+            margin-right: 5%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="max-width: 100%; margin: 0 auto;">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="#" style="margin-left: 1%"></a>
+                <div class="open-btn-container">
+                    <button class="open-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                </div>
+                <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-target="#navbarNav" data-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-brand " style="text-align: center; margin-left:10vw">
+                <h1 class="my-0">Pyseane</h1>
+            </div>
+            <div class="collapse navbar-collapse" style="padding-top: 1vw;">
+                <ul class="navbar-nav ml-auto" style="margin-right: 1vw;">
+                    <li class="nav-item">
+                        {% if selected_campagne %}
+                        <form action="" method="get">
+                            {{ form_menu.as_p }}
+                        </form>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+        <a class="close-btn" href="#" onclick="toggleSidebar()">&#9665;</a>
+        <ul class="list-unstyled">
+            <li><a href="/panel">Dashboard</a></li>
+            <li><a href="/panel/email">Email</a></li>
+            <li><a href="/panel/campagnes">Campagnes</a></li>
+            <li><a href="/logout">déconnexion</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="dashboard-container">
+            {% block content %}
+            <div class="row">
+                <div class="col-md-5 row-divider" style="padding-top: 0;">
+                    <div>
+                        <h3 style="margin-bottom: 5%;">Email personnalisation</h3>
+                        <form action="" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <h4 style="margin-bottom: 0%;">{{ form.mailtype.label }} </h4>
+                            {{ form.mailtype }}
+                            <h4 style="margin-top: 7%;">{{ form.name.label }}</h4>
+                            {{ form.name }}
+                            <h4 style="margin-top: 7%;">{{ form.receiver.label}}</h4>
+                            {{ form.receiver }}
+                            <div display="none" id="own_mail">
+                                <h5>{{ form.mail.label }}</h5>
+                                {{ form.mail}}
+                                <h5>{{ form.password.label }}</h5>
+                                {{ form.password }}
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div>
+                        <h3>Mail information</h3>
+                        {% csrf_token %}
+                        <h4>{{ form.template.label }}</h4>
+                        {{ form.template }}
+                        <h4>{{ form.subject.label }}</h4>
+                        {{ form.subject }}
+                        <h4>{{ form.content.label}}</h4>
+                        {{ form.content }}
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-submit">Submit</button>
+                </form>
+            </div>
+            {% endblock %}
+
+            <!-- {% if targets_for_campagne %}
+        {% for target_instance in targets_for_campagne %}
+        {{ target_instance.id_email_uuid }} - {{ target_instance.has_read }} - {{ target_instance.has_open }} - {{ target_instance.has_logged }}</br></br>
+        {% endfor %}
+        {% else %}
+        <p>Aucune cible n'est disponible pour cette campagne.</p>
+        {% endif %}-->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('sidebar-open');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var clearOnClickElements = document.getElementsByClassName('clear-on-click');
+            for (var i = 0; i < clearOnClickElements.length; i++) {
+                clearOnClickElements[i].addEventListener('click', function() {
+                    this.value = '';
+                });
+            }
+        });
+        document.querySelector('#own_mail').style.display = "none";
+        document.querySelector('#id_mailtype').addEventListener('change', function() {
+            if (document.querySelector('#id_mailtype').value !== "0") {
+                document.querySelector('#own_mail').style.display = "none";
+            } else {
+                document.querySelector('#own_mail').style.display = "block";
+            }
+        });
+        let template = [{
+                "SUBJECT": "",
+                "CONTENT": ""
+            },
+            {
+                "SUBJECT": "Votre prélèvement n'a pas abouti",
+                "CONTENT": "Nous rencontrons des difficultés à toucher votre paiement Netflix. Pour conserver votre accès à Netflix, veuillez prendre quelques instants pour vérifier vos données de paiement.\n\nNous vous prions de bien vouloir mettre à jour et confirmer vos informations de paiement avant le 02/12/2023. A défaut, vos accès sera malencontreusement bloqué jusqu'à paiement de votre part.\n\nPlusieurs causes peuvent mener à ce problème. Si vos coordonnées de paiement sont exactes, une authentification additionnelle de votre banque pourrait être nécessaire. Pour y remédier, [[connectez vous à votre compte]]."
+            }
+        ]
+        document.querySelector('#id_template').addEventListener('change', function() {
+            let number = parseInt(document.querySelector('#id_template').value);
+            document.querySelector('#id_subject').value = template[number]["SUBJECT"];
+            document.querySelector('#id_content').value = template[number]["CONTENT"];
+        });
+
+        function detectZoom() {
+            var ratio = 0,
+                screen = window.screen,
+                ua = navigator.userAgent.toLowerCase();
+            if (window.devicePixelRatio !== undefined) {
+                ratio = window.devicePixelRatio;
+            } else if (~ua.indexOf('msie')) {
+                if (screen.deviceXDPI && screen.logicalXDPI) {
+                    ratio = screen.deviceXDPI / screen.logicalXDPI;
+                }
+            } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+                ratio = window.outerWidth / window.innerWidth;
+            }
+            if (ratio) {
+                var button = document.querySelector('.open-btn');
+                if (button) {
+                    button.style.fontSize = 2 * ratio + 'vw';
+                }
+            }
+        }
+        window.onload = detectZoom;
+        window.onresize = detectZoom;
+    </script>
+</body>
+
+</html>

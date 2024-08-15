@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Campagne</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Création de Campagne</title>
+  <link rel="icon" href="static/img/logo.png" type="image/png">
+  <!-- Ajouter les liens vers les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #ff0000, #000000);
+      /* Dégradé de rouge et de noir */
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      color: #000;
+      /* Couleur du texte en noir */
+    }
+
+    .campaign-container {
+      max-width: 500px;
+      /* Largeur maximale du formulaire de création de campagne */
+      width: 100%;
+      padding: 2%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .campaign-container h2 {
+      margin-bottom: 5%;
+      color: #ff0000;
+    }
+
+    .campaign-container h4 {
+      margin-bottom: 5%;
+      color: #393434;
+    }
+
+    .form-group {
+      margin-bottom: 2%;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 3%;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 5%;
+      /* Hauteur des champs de formulaire */
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 5%;
+    }
+
+    .btn-create-campaign {
+      width: 100%;
+      padding: 4%;
+      /* Hauteur du bouton de création de campagne */
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-create-campaign:hover {
+      background-color: #cc0000;
+      /* Une teinte plus sombre de rouge au survol */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="campaign-container">
+    <h2>Création de Campagne</h2>
+    <h4>Veuillez donner un nom à votre campagne et l'URL que vous souhaitez cloner.</h4>
+    <form method="post" action="">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="campaign-name">Nom de la Campagne</label>
+        {{ form.name }}
+      </div>
+      <div class="form-group">
+        <label for="campaign-url">URL à Cloner</label>
+        {{ form.url }}
+      </div>
+      <button type="submit" class="btn btn-create-campaign">Créer la Campagne</button>
+    </form>
+  </div>
+
+  <!-- Ajouter le lien vers le fichier Bootstrap JS et jQuery (optionnel) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
